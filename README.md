@@ -15,8 +15,7 @@
 3. [Requisitos e Instalación](#-requisitos-e-instalación)
 4. [Flujo de Trabajo y Modos de Ejecución](#-flujo-de-trabajo-y-modos-de-ejecución)
 5. [Demostración y Casos de Prueba (Éxito vs Errores)](#-demostración-y-casos-de-prueba-éxito-vs-errores)
-6. [Guion de Presentación Oral (15 Puntos)](#-guion-de-presentación-oral-15-puntos)
-7. [Decisiones de Diseño y Arquitectura](#-decisiones-de-diseño-y-arquitectura)
+6. [Decisiones de Diseño y Arquitectura](#-decisiones-de-diseño-y-arquitectura)
 
 ---
 
@@ -214,50 +213,6 @@ La herramienta maneja con resiliencia los fallos comunes sin colapsar:
      ```text
      ❌ Error: La ruta especificada no existe: '/ruta/inventada_404'
      ```
-
----
-
-### Caso D: Suite de Pruebas Unitarias Automatizadas
-Se incluye una suite formal basada en `unittest`:
-```bash
-python3 -m unittest discover -s tests -p "test_*.py" -v
-```
-**Resultado:**
-```text
-test_corrupted_json_handled_gracefully (test_doctor.TestOnboardingDoctor) ... ok
-test_fix_env_feature (test_doctor.TestOnboardingDoctor) ... ok
-test_invalid_project_path (test_doctor.TestOnboardingDoctor) ... ok
-test_issues_project_detection (test_doctor.TestOnboardingDoctor) ... ok
-test_markdown_report_generation (test_doctor.TestOnboardingDoctor) ... ok
-test_parse_semver (test_doctor.TestOnboardingDoctor) ... ok
-test_successful_project_validation (test_doctor.TestOnboardingDoctor) ... ok
-
-----------------------------------------------------------------------
-Ran 7 tests in 0.052s
-
-OK
-```
-
----
-
-## 🎙️ Guion de Presentación Oral (15 Puntos)
-
-Para tu exposición individual de 5 minutos, sigue esta estructura:
-
-1. **Introducción (1 min):**
-   > *"Buenas tardes. Para esta práctica desarrollé la skill **developer-onboarding-doctor**. El problema que resuelve es el tiempo que pierden los desarrolladores al clonar repositorios por versiones incompatibles, puertos tomados o falta de variables de entorno."*
-
-2. **Arquitectura y Estructura (1 min):**
-   > *"La skill sigue la estructura oficial: `SKILL.md` como interfaz para el agente, `scripts/doctor.py` en Python puro sin dependencias externas, `assets/` para esquemas y plantillas de reportes, y `references/` con playbooks de resolución de problemas."*
-
-3. **Demostración en Vivo (2 min):**
-   - Ejecuta `./run_demo.sh`.
-   - Muestra el **Caso Exitoso (Semáforo 🟢)** y el reporte Markdown generado.
-   - Muestra el **Caso con Errores (Semáforo 🔴)** y ejecuta `--fix-env` para demostrar la auto-reparación.
-   - Muestra el **Manejo de Errores** ante un JSON corrupto y los **7 tests unitarios pasando**.
-
-4. **Conclusión y Decisiones Técnicas (1 min):**
-   > *"Decidí utilizar la librería estándar de Python para garantizar portabilidad inmediata sin que el evaluador deba instalar paquetes de pip. Además, desacoplé la especificación del proyecto en `onboarding-profile.json` para que cualquier repositorio pueda adoptar esta skill en menos de un minuto."*
 
 ---
 
