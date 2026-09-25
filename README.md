@@ -14,7 +14,7 @@
 2. [Estructura del Proyecto y la Skill](#-estructura-del-proyecto-y-la-skill)
 3. [Requisitos e Instalación de la Skill](#-requisitos-e-instalación-de-la-skill)
 4. [Cómo Invocar la Skill con el Agente de IA](#-cómo-invocar-la-skill-con-el-agente-de-ia)
-5. [Demostración en Vivo: Casos de Prueba (Éxito vs Errores)](#-demostración-en-vivo-casos-de-prueba-éxito-vs-errores)
+5. [Casos de Prueba y Demostración (Éxito vs Errores)](#-casos-de-prueba-y-demostración-éxito-vs-errores)
 6. [Decisiones de Diseño y Arquitectura](#-decisiones-de-diseño-y-arquitectura)
 
 ---
@@ -23,9 +23,9 @@
 
 ### El Problema
 Al clonar un repositorio o incorporarse a un nuevo equipo de desarrollo (*onboarding*), los desarrolladores pierden horas enfrentando problemas silenciosos de configuración:
-- No tienen la versión correcta de Node.js o Python en su máquina local.
-- Les faltan herramientas de consola obligatorias en el `$PATH` (como `git`, `npm` o `docker`).
-- Los puertos de red requeridos (ej. `3000`, `5432`, `8080`) ya están ocupados por otros procesos o servidores zombies.
+- No se cuenta con la versión correcta de Node.js o Python en la máquina local.
+- Faltan herramientas de consola obligatorias en el `$PATH` (como `git`, `npm` o `docker`).
+- Los puertos de red requeridos (ej. `3000`, `5432`, `8080`) están ocupados por otros procesos o servicios activos.
 - El archivo `.env` no existe o no tiene las variables de entorno mínimas requeridas respecto a `.env.example`.
 - Las carpetas de dependencias (`node_modules`, `.venv`) no fueron instaladas.
 
@@ -93,14 +93,14 @@ developer-onboarding-doctor/
 - **Entorno de Agente de IA** (Google Antigravity, Codex o compatible).
 
 ### Instalación de la Skill en el Agente:
-Para que tu agente de IA reconozca la skill automáticamente en cualquier conversación:
+Para que el agente de IA reconozca la skill automáticamente en cualquier conversación:
 
 ```bash
 # Copiar la skill a la carpeta global de skills del entorno
 mkdir -p ~/.gemini/config/skills/developer-onboarding-doctor
 cp -r .agents/skills/developer-onboarding-doctor/* ~/.gemini/config/skills/developer-onboarding-doctor/
 ```
-*(O también puedes mantenerla dentro de la carpeta `.agents/skills/` del repositorio).*
+*(También puede mantenerse directamente dentro de la carpeta `.agents/skills/` del repositorio).*
 
 ---
 
@@ -113,9 +113,9 @@ La skill está diseñada para interactuar mediante **lenguaje natural** o invoca
 @developer-onboarding-doctor revisa el proyecto demo-projects/app-success
 ```
 
-### Invocación Natural (Activación Automática):
+### Invocación Natural (Activación Automática por Intención):
 ```text
-"Acabo de clonar este repositorio y no arranca, ¿puedes verificar si mi entorno cumple con todos los requisitos?"
+"Acabo de clonar este repositorio y no arranca, ¿puedes verificar si el entorno cumple con todos los requisitos?"
 ```
 
 ### ¿Qué hace el Agente internamente al ser invocado?
@@ -126,17 +126,17 @@ La skill está diseñada para interactuar mediante **lenguaje natural** o invoca
 
 ---
 
-## 🧪 Demostración en Vivo: Casos de Prueba (Éxito vs Errores)
+## 🧪 Casos de Prueba y Demostración (Éxito vs Errores)
 
-Para realizar la demostración de la skill durante tu presentación, solo necesitas interactuar con el agente en el chat solicitando los siguientes casos:
+La validación y prueba de la skill se realiza interactuando con el agente a través de los proyectos de prueba incluidos:
 
 ---
 
 ### Caso 1: Proyecto Exitoso (`app-success`) — *Happy Path*
-Pídele al agente en el chat:
-> **`@developer-onboarding-doctor haz un diagnóstico de demo-projects/app-success`**
+**Prompt de ejecución:**
+> `@developer-onboarding-doctor haz un diagnóstico de demo-projects/app-success`
 
-#### Resultado Esperado del Agente:
+#### Resultado del Agente:
 El agente reporta que todos los requisitos están cumplidos emitiendo el semáforo **🟢 TODO LISTO (PASS)**:
 - 🟢 **Runtimes & CLI:** Versiones de Node.js y Python compatibles, herramientas `git` y `npm` disponibles.
 - 🟢 **Variables de Entorno:** `.env` presente con todas las variables requeridas.
@@ -147,10 +147,10 @@ El agente reporta que todos los requisitos están cumplidos emitiendo el semáfo
 ---
 
 ### Caso 2: Detección de Problemas y Auto-Remediación (`app-with-issues`)
-Pídele al agente en el chat:
-> **`@developer-onboarding-doctor diagnostica demo-projects/app-with-issues y dime qué falta`**
+**Prompt de ejecución:**
+> `@developer-onboarding-doctor diagnostica demo-projects/app-with-issues y dime qué falta`
 
-#### Resultado Esperado del Agente:
+#### Resultado del Agente:
 El agente detecta las discrepancias críticas y emite el semáforo **🔴 BLOQUEANTE (FAIL)**:
 - 🔴 **Variables de Entorno:** Falta el archivo `.env` en la raíz del proyecto.
 - 🔴 **Dependencias:** Falta la carpeta `node_modules`.
@@ -161,30 +161,30 @@ El agente detecta las discrepancias críticas y emite el semáforo **🔴 BLOQUE
   # Instalar dependencias
   npm install
   ```
-*(También puedes pedirle al agente: `"Aplica la auto-reparación de variables con --fix-env"`).*
+*(Opcionalmente, se puede solicitar al agente aplicar la auto-reparación de variables con `--fix-env`).*
 
 ---
 
 ### Caso 3: Manejo de Entradas Inválidas y Archivos Corruptos (`app-corrupted`)
-Pídele al agente en el chat:
-> **`@developer-onboarding-doctor revisa demo-projects/app-corrupted`**
+**Prompt de ejecución:**
+> `@developer-onboarding-doctor revisa demo-projects/app-corrupted`
 
-#### Resultado Esperado del Agente:
-El agente no colapsa ni arroja excepciones sin control. Identifica de inmediato el error de formato:
+#### Resultado del Agente:
+El agente identifica de inmediato el error de formato sin colapsar:
 ```text
 ❌ Error de Configuración: Error de sintaxis JSON en '.../onboarding-profile.json':
 Línea 8, Columna 9: Expecting value
 ```
-El agente explica que el archivo de configuración tiene una coma extra y orienta al desarrollador sobre cómo corregir la sintaxis.
+El agente explica que el archivo de configuración tiene una coma extra y orienta sobre cómo corregir la sintaxis.
 
 ---
 
 ### Caso 4: Ruta de Proyecto Inexistente (Error 404)
-Pídele al agente en el chat:
-> **`@developer-onboarding-doctor revisa carpeta_inexistente`**
+**Prompt de ejecución:**
+> `@developer-onboarding-doctor revisa carpeta_inexistente`
 
-#### Resultado Esperado del Agente:
-El agente valida la ruta antes de proceder e informa con un mensaje amigable:
+#### Resultado del Agente:
+El agente valida la ruta antes de proceder e informa con un mensaje de error controlado:
 ```text
 ❌ Error: La ruta especificada no existe: 'carpeta_inexistente'
 ```
@@ -194,7 +194,7 @@ El agente valida la ruta antes de proceder e informa con un mensaje amigable:
 ## 💡 Decisiones de Diseño y Arquitectura
 
 1. **Flujo Centrado en el Agente de IA:**
-   A diferencia de scripts tradicionales que requieren que el humano recuerde comandos y flags en consola, la skill está desacoplada para que el agente sea quien orqueste el diagnóstico, interprete los códigos de salida y traduzca los resultados técnicos en recomendaciones comprensibles.
+   A diferencia de scripts tradicionales que requieren memorizar comandos y flags en consola, la skill está desacoplada para que el agente sea quien orqueste el diagnóstico, interprete los códigos de salida y traduzca los resultados técnicos en recomendaciones comprensibles.
 2. **Cero Dependencias de Terceros (`Zero Third-Party Deps`):**
    El motor `doctor.py` está escrito 100% en la biblioteca estándar de Python (`json`, `socket`, `subprocess`, `re`, `shutil`, `argparse`, `pathlib`, `unittest`). Esto garantiza que la skill funcione en cualquier máquina o contenedor sin necesidad de ejecutar `pip install`.
 3. **Detección de Puertos por Sockets TCP:**
