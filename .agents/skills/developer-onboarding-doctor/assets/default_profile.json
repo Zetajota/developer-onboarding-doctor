@@ -1,0 +1,47 @@
+{
+  "$schema": "./project_profile_schema.json",
+  "projectName": "sample-project",
+  "version": "1.0.0",
+  "runtimes": [
+    {
+      "name": "node",
+      "minVersion": "18.0.0",
+      "recommendedVersion": "20.10.0"
+    },
+    {
+      "name": "python3",
+      "minVersion": "3.10.0",
+      "recommendedVersion": "3.11.0"
+    }
+  ],
+  "requiredCLIs": [
+    "git",
+    "npm"
+  ],
+  "env": {
+    "envFile": ".env",
+    "exampleFile": ".env.example",
+    "requiredKeys": [
+      "PORT",
+      "DATABASE_URL",
+      "API_SECRET_KEY"
+    ]
+  },
+  "ports": [
+    {
+      "port": 3000,
+      "service": "Frontend / Web Server",
+      "critical": true
+    },
+    {
+      "port": 5432,
+      "service": "PostgreSQL Database",
+      "critical": false
+    }
+  ],
+  "dependencies": {
+    "type": "npm",
+    "lockFile": "package-lock.json",
+    "installDir": "node_modules"
+  }
+}

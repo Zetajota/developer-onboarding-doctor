@@ -1,0 +1,10 @@
+{
+  "projectName": "corrupted-syntax-app",
+  "version": "1.0.0",
+  "runtimes": [
+    {
+      "name": "node",
+      "minVersion": "18.0.0"
+    },  <-- ERROR INTENCIONAL: Coma colgante sin siguiente elemento
+  ]
+}

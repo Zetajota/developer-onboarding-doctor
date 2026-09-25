@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OnboardingProjectProfile",
+  "description": "Especificación de requisitos de entorno para el onboarding de desarrolladores en el proyecto",
+  "type": "object",
+  "required": ["projectName", "runtimes"],
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "Nombre del proyecto o servicio"
+    },
+    "version": {
+      "type": "string",
+      "description": "Versión del perfil de onboarding"
+    },
+    "runtimes": {
+      "type": "array",
+      "description": "Motores de ejecución requeridos (Node.js, Python, etc.)",
+      "items": {
+        "type": "object",
+        "required": ["name", "minVersion"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": ["node", "python", "python3", "npm", "git", "docker"]
+          },
+          "minVersion": {
+            "type": "string",
+            "description": "Versión mínima requerida en formato semver (ej: 18.0.0, 3.10.0)"
+          },
+          "recommendedVersion": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "requiredCLIs": {
+      "type": "array",
+      "description": "Herramientas de línea de comando obligatorias en el PATH",
+      "items": {
+        "type": "string"
+      }
+    },
+    "env": {
+      "type": "object",
+      "description": "Configuración de variables de entorno",
+      "properties": {
+        "envFile": {
+          "type": "string",
+          "default": ".env"
+        },
+        "exampleFile": {
+          "type": "string",
+          "default": ".env.example"
+        },
+        "requiredKeys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ports": {
+      "type": "array",
+      "description": "Puertos de red que la aplicación necesita tener disponibles",
+      "items": {
+        "type": "object",
+        "required": ["port", "service"],
+        "properties": {
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "service": {
+            "type": "string"
+          },
+          "critical": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["npm", "pip", "poetry", "composer"]
+        },
+        "lockFile": {
+          "type": "string"
+        },
+        "installDir": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "microservice-with-issues",
+  "version": "1.0.0",
+  "description": "Demo project with common onboarding issues (missing .env and dependencies)",
+  "main": "index.js"
+}

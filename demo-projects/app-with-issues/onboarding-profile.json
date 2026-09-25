@@ -1,0 +1,36 @@
+{
+  "$schema": "../../.agents/skills/developer-onboarding-doctor/assets/project_profile_schema.json",
+  "projectName": "microservice-with-issues",
+  "version": "1.0.0",
+  "runtimes": [
+    {
+      "name": "node",
+      "minVersion": "18.0.0",
+      "recommendedVersion": "20.10.0"
+    }
+  ],
+  "requiredCLIs": [
+    "git"
+  ],
+  "env": {
+    "envFile": ".env",
+    "exampleFile": ".env.example",
+    "requiredKeys": [
+      "SERVICE_PORT",
+      "REDIS_HOST",
+      "JWT_SECRET"
+    ]
+  },
+  "ports": [
+    {
+      "port": 4590,
+      "service": "Microservice Port",
+      "critical": true
+    }
+  ],
+  "dependencies": {
+    "type": "npm",
+    "lockFile": "package.json",
+    "installDir": "node_modules"
+  }
+}

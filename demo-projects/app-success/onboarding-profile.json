@@ -1,0 +1,42 @@
+{
+  "$schema": "../../.agents/skills/developer-onboarding-doctor/assets/project_profile_schema.json",
+  "projectName": "ecommerce-api-success",
+  "version": "1.0.0",
+  "runtimes": [
+    {
+      "name": "node",
+      "minVersion": "16.0.0",
+      "recommendedVersion": "20.10.0"
+    },
+    {
+      "name": "python3",
+      "minVersion": "3.8.0",
+      "recommendedVersion": "3.11.0"
+    }
+  ],
+  "requiredCLIs": [
+    "git",
+    "npm"
+  ],
+  "env": {
+    "envFile": ".env",
+    "exampleFile": ".env.example",
+    "requiredKeys": [
+      "PORT",
+      "DATABASE_URL",
+      "API_SECRET_KEY"
+    ]
+  },
+  "ports": [
+    {
+      "port": 4589,
+      "service": "Ecommerce REST API",
+      "critical": true
+    }
+  ],
+  "dependencies": {
+    "type": "npm",
+    "lockFile": "package.json",
+    "installDir": "node_modules"
+  }
+}
